@@ -1,5 +1,6 @@
 <h1> Request Maker </h1>
-<p>Make n request in n time to a given http address </p>
+<p> A Python 2.7 script made for making n request to a http address </p>
+
 
 <h2>Requiremets</h2>
 
