@@ -31,12 +31,12 @@ def validateTarget(target):
 
 def make_call(url, queue, no):
   no = str(no)
-  print 'Starting call #'+no + '\n'
+  print 'Starting call #'+no
   start = time.time()
   r = requests.get(url)
   elapsed = (time.time() - start)
   s_code = r.status_code
-  print 'Call #'+no+' completed. Elapsed: ' + str(elapsed) + 'with status code of: ' + str(s_code)  + '\n'
+  print 'Call #'+no+' completed. Elapsed: ' + str(elapsed) + 'with status code of: ' + str(s_code) 
   result = {'time':elapsed,'text':r.text, 's_code':s_code}
   queue.put(result)
   
@@ -66,17 +66,16 @@ def main(arguments):
   queue = Queue()
   thread_results = []
   thread_pool = []
-
+  
   for n in range(0,int(iterations)):
-    thread_pool.append(threading.Timer(it_per_second * n,make_call,[target,queue,n]))
+    thread_pool.append(threading.Timer(it_per_second,make_call,[target,queue,n]))
 
   for thread in thread_pool:
     thread.start()
-
-
-  for thread in thread_pool:
     response = queue.get()
     thread_results.append(response)
+
+  for thread in thread_pool:
     thread.join()
   parse_results(thread_results)
   
